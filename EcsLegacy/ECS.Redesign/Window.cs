@@ -17,5 +17,10 @@ namespace ECS.Redesign
         {
             Console.WriteLine("Window is closed");
         }
+
+        public bool RunSelfTest()
+        {
+            return true; 
+        }
     }
 }

@@ -4,8 +4,8 @@ namespace ECS.Redesign
 {
     public class ECS
     {
-        private int _heaterThreshold;
-        private int _windowThreshold;
+        private int _heaterThreshold = int.MinValue;
+        private int _windowThreshold = int.MaxValue;
         private readonly ITempSensor _tempSensor;
         private readonly IHeater _heater;
         private readonly IWindow _window;
@@ -52,7 +52,7 @@ namespace ECS.Redesign
 
         public void SetHeaterThreshold(int thr)
         {
-            _heaterThreshold = _windowThreshold < thr ? thr : _windowThreshold - 1;
+            _heaterThreshold = _windowThreshold > thr ? thr : _windowThreshold - 1;
         }
 
         public int GetHeaterThreshold()
@@ -67,7 +67,7 @@ namespace ECS.Redesign
 
         public bool RunSelfTest()
         {
-            return _tempSensor.RunSelfTest() && _heater.RunSelfTest();
+            return _tempSensor.RunSelfTest() && _heater.RunSelfTest() && _window.RunSelfTest();
         }
     }
 }

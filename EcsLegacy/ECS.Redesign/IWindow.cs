@@ -10,5 +10,6 @@ namespace ECS.Redesign
     {
         void Open();
         void Close();
+        bool RunSelfTest();
     }
 }
