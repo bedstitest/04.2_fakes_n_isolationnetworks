@@ -21,7 +21,6 @@ namespace ECS.Redesign.test
             uut = new ECS(15, 25, FS, FH, FW);
         }
 
-
         [Test]
         public void SetHeaterThreshold()
         {
@@ -29,7 +28,7 @@ namespace ECS.Redesign.test
             Assert.That(uut.GetHeaterThreshold(), Is.EqualTo(20));
         }
 
-
+        #region RegulateTests
         [Test]
         public void Regulate_HighTemp_HeaterTurnedOff()
         {
@@ -45,7 +44,6 @@ namespace ECS.Redesign.test
             uut.Regulate();
             FH.Received().TurnOn();
         }
-
         [Test]
         public void Regulate_LowTemp_WindowClosed()
         {
@@ -60,7 +58,9 @@ namespace ECS.Redesign.test
             uut.Regulate();
             FW.Received(1).Open();
         }
+        #endregion
 
+        #region RunSelfTests
         [Test]
         public void RunSelfTest_FakeWindowFails_ECSFails()
         {
@@ -69,6 +69,15 @@ namespace ECS.Redesign.test
             FW.RunSelfTest().Returns(false);
             Assert.That(uut.RunSelfTest(), Is.False);
 
+        }
+
+        [Test]
+        public void RunSelfTest_FakeTempSensorFails_ECSFails()
+        {
+            FH.RunSelfTest().Returns(true);
+            FS.RunSelfTest().Returns(false);
+            FW.RunSelfTest().Returns(true);
+            Assert.That(uut.RunSelfTest(), Is.False);
         }
         [Test]
         public void RunSelfTest_FakeHeaterFails_ECSFails()
@@ -80,21 +89,14 @@ namespace ECS.Redesign.test
         }
 
         [Test]
-        public void RunSelfTest_FakeTempSensorFails_ECSFails()
-        {
-            FH.RunSelfTest().Returns(true);
-            FS.RunSelfTest().Returns(false);
-            FW.RunSelfTest().Returns(true);
-            Assert.That(uut.RunSelfTest(), Is.False);
-        }
-
-        [Test]
-        public void RunSelfTest_ECSSucceds()
+        public void RunSelfTest_ECSSucceeds()
         {
             FH.RunSelfTest().Returns(true);
             FS.RunSelfTest().Returns(true);
             FW.RunSelfTest().Returns(true);
             Assert.That(uut.RunSelfTest(), Is.True);
         }
+        #endregion
+
     }
 }
