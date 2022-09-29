@@ -21,7 +21,7 @@ namespace ECS.Redesign
 
         public void Regulate()
         {
-            var t = _tempSensor.GetTemp();
+            var t = GetCurTemp();
             Console.WriteLine($"Temperature measured was {t}");
             if (t < _heaterThreshold)
             {

@@ -21,12 +21,28 @@ namespace ECS.Redesign.test
             uut = new ECS(15, 25, FS, FH, FW);
         }
 
+        #region SetGetTests
         [Test]
-        public void SetHeaterThreshold()
+        public void SetGetWindowThreshold()
+        {
+            uut.SetWindowThreshold(40);
+            Assert.That(uut.GetWindowThreshold(), Is.EqualTo(40));
+        }
+        [Test]
+        public void SetGetHeaterThreshold()
         {
             uut.SetHeaterThreshold(20);
             Assert.That(uut.GetHeaterThreshold(), Is.EqualTo(20));
         }
+
+        [Test]
+        public void GetCurTemp()
+        {
+            FS.GetTemp().Returns(20);
+            uut.Regulate();
+            FS.Received(1).GetTemp();
+        }
+        #endregion
 
         #region RegulateTests
         [Test]
@@ -65,15 +81,6 @@ namespace ECS.Redesign.test
             uut.Regulate();
             FW.Received(1).Close();
             //FH.Received(1).TurnOff();
-        }
-        #endregion
-
-        #region GetTests
-        [Test]
-        public void GetWindowThreshold()
-        {
-            uut.GetHeaterThreshold();
-            
         }
         #endregion
 
