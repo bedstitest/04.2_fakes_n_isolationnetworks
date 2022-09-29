@@ -80,7 +80,14 @@ namespace ECS.Redesign.test
             FS.GetTemp().Returns(20);
             uut.Regulate();
             FW.Received(1).Close();
-            //FH.Received(1).TurnOff();
+        }
+
+        [Test]
+        public void Regulate_MiddleTemp_HeaterTurnedOff()
+        {
+            FS.GetTemp().Returns(20);
+            uut.Regulate();
+            FH.Received(1).TurnOff();
         }
         #endregion
 
