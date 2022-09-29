@@ -58,6 +58,23 @@ namespace ECS.Redesign.test
             uut.Regulate();
             FW.Received(1).Open();
         }
+        [Test]
+        public void Regulate_MiddleTemp_WindowClosed()
+        {
+            FS.GetTemp().Returns(20);
+            uut.Regulate();
+            FW.Received(1).Close();
+            //FH.Received(1).TurnOff();
+        }
+        #endregion
+
+        #region GetTests
+        [Test]
+        public void GetWindowThreshold()
+        {
+            uut.GetHeaterThreshold();
+            
+        }
         #endregion
 
         #region RunSelfTests
